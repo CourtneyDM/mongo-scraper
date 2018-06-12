@@ -1,0 +1,9 @@
+<div id="articles">
+    {{#if article}}
+        {{#each article}}
+            {{>articles}}
+        {{/each}}
+    {{else}}
+        {{>home}}
+    {{/if}}
+</div>

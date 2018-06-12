@@ -1,0 +1,12 @@
+<div class="saved">
+    {{#if article}}
+        {{#each article}}
+            <h2 id="title">{{this.title}}</h2>
+            <a href= {{this.link}} class="btn btn-primary" id="link">View Article</a>
+            <button type="submit" class="btn btn-success" id="comment" data-id= {{this._id}}>Add Comment</button>
+            <button type="submit" class="btn btn-danger" id="delete" data-id= {{this._id}}>Delete Article</button>
+        {{/each}}
+    {{else}}
+        {{>home}}
+    {{/if}}
+</div>
