@@ -38,6 +38,7 @@ $(document).on("click", "#new-comment", function () {
 $(document).on("click", "#get-comments", function () {
     // Get the article ID from the View Note button
     const articleID = $(this).attr("name");
+    const deleteBtn = `<button class="btn btn-sm btn-danger" aria-label="Close" id="delete-comment">Delete Note</button>`;
 
     // Send the article ID to the DB to get the note data
     $.get(`/comments/${articleID}`, data => {
@@ -45,12 +46,12 @@ $(document).on("click", "#get-comments", function () {
         let comment = `<p>${data.note.body}</p>`;
 
         // Add the note id to the View Comments button
-        $("button").attr("id", "get-comments").attr("data-id", noteID);
+        $("button").attr("id", "get-comments").attr("data-note-id", noteID);
 
         // Add the Comment and a Delete Note button to the DOM
-        $(`#${articleID}`).append(comment)
-            .append(`<button class="btn btn-sm btn-danger" aria-label="Close" id="delete-comment" data-name="${articleID}" data-id="${noteID}">
-        Delete Note</button>`);
+        $(`#${articleID}`).append(comment).append(deleteBtn).attr("data-article-id", `"${articleID}"`).attr("data-note-id", `"${noteID}`);
+        //     .append(`<button class="btn btn-sm btn-danger" aria-label="Close" id="delete-comment" data-name="${articleID}" data-id="${noteID}">
+        // Delete Note</button>`);
     });
 });
 
