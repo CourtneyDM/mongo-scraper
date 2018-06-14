@@ -1,12 +1,27 @@
 <div class="saved">
     {{#if article}}
         {{#each article}}
-            <h2 id="title">{{this.title}}</h2>
-            <a href= {{this.link}} class="btn btn-primary" id="link">View Article</a>
-            <button type="submit" class="btn btn-success" id="comment" data-id= {{this._id}}>Add Comment</button>
-            <button type="submit" class="btn btn-danger" id="delete" data-id= {{this._id}}>Delete Article</button>
+
+            {{> modal}}
+            <div>
+                <h2 id="title">{{this.title}}</h2>
+                <a href= {{this.link}} class="btn btn-info btn-sm" id="link">View Article</a>
+
+                <button type="button" class="btn btn-secondary btn-sm" id="new-comment" data-toggle="modal" data-target="#modal" data-id= {{this._id}}>Add Note</button>
+
+                {{#if note}}
+                    <button type="button" class="btn btn-secondary btn-sm" id="get-comments" name= {{this._id}}>View Note</button>
+                {{/if}}
+                <button type="button" class="btn btn-danger btn-sm" id="delete" data-id= {{this._id}}>Delete Article</button>
+
+                {{> comments}}
+
+            </div>
         {{/each}}
+
     {{else}}
-        {{>home}}
+
+        {{> home}}
+
     {{/if}}
 </div>

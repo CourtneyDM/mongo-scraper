@@ -11,20 +11,19 @@ const router = express.Router();
 
 // Render page on initial load
 router.get("/", (req, res) => {
-    res.render("index");
+    return res.render("index");
 });
 
-// Retrieve all saved articles and send to client
+// Read all saved articles and send to client
 router.get("/articles", (req, res) => {
     db.Article.find().sort({
         _id: -1
     }).then(dbArticle => {
-        res.render("saved", { article: dbArticle });
-        console.log(dbArticle);
+        return res.render("saved", { article: dbArticle });
     }).catch(error => res.json(error));
 });
 
-// Route to run when "Scrape Articles" button is clicked
+// Scrape Articles
 router.get("/scrape", (req, res) => {
 
     // Scrape NFL.com
@@ -48,8 +47,19 @@ router.get("/scrape", (req, res) => {
 
         });
         console.log("Scrape Complete!");
-        res.render("index", { article: results });
+        return res.render("index", { article: results });
     });
+});
+
+// Read a note for articles referenced by ID
+router.get("/comments/:id", (req, res) => {
+    // console.log(req.params.id);
+    db.Article.findOne({ _id: req.params.id })
+        .populate("note")
+        // .then(dbArticle => res.json(dbArticle.note))
+        // .then(dbArticle => console.log(dbArticle.note))
+        .then(dbArticle => { return res.json(dbArticle) })
+        .catch(error => { return res.json(error) });
 });
 
 // Save article to database
@@ -70,41 +80,51 @@ router.post("/api/saved/", (req, res) => {
         { upsert: true })
         .then(result => {
             // console.log("Added new article.");
-            res.send("Article saved for later!");
+            console.log(result);
         })
         .catch(err => console.log(err));
-    console.log(`Record saved: ${article}`);
+    return res.send("Updated.");
 });
 
-// Remove an article from database
-router.post("/api/delete", (req, res) => {
+// Delete an article from database
+router.post("/api/delete/article", (req, res) => {
     const articleID = req.body.id;
     console.log(articleID);
     db.Article.deleteOne({ _id: `${articleID}` }, () => {
-        console.log("Article Deleted");
+        return res.send("Article Deleted");
     });
 });
 
-// Get notes for articles referenced by ID
-router.get("/articles/:id", (req, res) => {
-    db.Article.findOne({ _id: req.params.id })
-        .populate("note")
-        .then(dbArticle => res.json(dbArticle))
-        .catch(error => res.json(error));
+// Create a note and add to database
+router.post("/api/articles/", (req, res) => {
+    const articleID = req.body.id;
+    const comment = {
+        title: req.body.title,
+        body: req.body.body
+    }
+    console.log(`Article ID: ${articleID}`);
+    console.log(`Comment: ${comment}`);
+
+    db.Note.create(comment)
+        .then(dbNote => db.Article.findOneAndUpdate({
+            _id: articleID
+        },
+            { note: dbNote._id }, { new: true }))
+        .then(() => console.log("Article added."))
+        .catch(error => { return res.json(error) });
+
+    res.redirect("/articles");
 });
 
-// Create a note for articles referenced by ID
-router.post("/api/articles/:id", (req, res) => {
-    db.Note.create(req.body)
-        .then(dbNote => dbArticle.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true })).
-        then(dbArticle => res.json(dbArticle))
-        .catch(error => res.json(error));
+// Delete a note from database
+router.post("/api/delete/note", (req, res) => {
+    const noteID = req.body.id;
+    console.log(noteID);
+    db.Note.deleteOne({ _id: `${noteID}` }, () => {
+        console.log("Note deleted.");
+    });
+    res.redirect("/articles");
 });
 
-// Export Router
+// Export Routes
 module.exports = router;
-
-// TODO: Create the functionality to save a note
-
-// TODO: Create the functionality to delete a note
-
