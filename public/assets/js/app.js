@@ -50,8 +50,6 @@ $(document).on("click", "#get-comments", function () {
 
         // Add the Comment and a Delete Note button to the DOM
         $(`#${articleID}`).append(comment).append(deleteBtn).attr("data-article-id", `"${articleID}"`).attr("data-note-id", `"${noteID}`);
-        //     .append(`<button class="btn btn-sm btn-danger" aria-label="Close" id="delete-comment" data-name="${articleID}" data-id="${noteID}">
-        // Delete Note</button>`);
     });
 });
 
