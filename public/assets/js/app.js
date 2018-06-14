@@ -26,7 +26,7 @@ $(document).on("click", "#delete", function () {
 
 // Add a comment from the modal form
 $(document).on("click", "#new-comment", function () {
-    const thisID = $(this).attr("data-id");
+    const thisID = $(this).attr("data-article-id");
     const title = $(this).prev().prev().text();
 
     $("#comment-title").text(title).attr("data-id", thisID).attr("name", thisID);
