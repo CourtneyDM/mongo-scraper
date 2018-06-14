@@ -13,7 +13,7 @@ $(document).on("click", "#save", function () {
 
 // Delete an article from the Saved Articles list
 $(document).on("click", "#delete", function () {
-    const articleID = $(this).attr("data-id");
+    const articleID = $(this).attr("data-article-id");
     $.ajax({
         method: "POST",
         url: "/api/delete/article",
@@ -26,12 +26,12 @@ $(document).on("click", "#delete", function () {
 
 // Add a comment from the modal form
 $(document).on("click", "#new-comment", function () {
-    const thisID = $(this).attr("data-article-id");
+    const articleID = $(this).attr("data-article-id");
     const title = $(this).prev().prev().text();
 
-    $("#comment-title").text(title).attr("data-id", thisID).attr("name", thisID);
+    $("#comment-title").text(title).attr("data-id", articleID).attr("name", articleID);
     $("#header").attr("value", title);
-    $("#noteID").attr("value", thisID);
+    $("#noteID").attr("value", articleID);
 });
 
 // Retrieve notes
