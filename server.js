@@ -30,6 +30,9 @@ app.use(logger("dev"));
 
 // Establish Mongoose Connection to DB
 mongoose.connect("mongodb://localhost/articleScraper");
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 // Start Server...
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}...`));
