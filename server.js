@@ -29,8 +29,8 @@ app.set("view engine", "handlebars");
 app.use(logger("dev"));
 
 // Establish Mongoose Connection to DB
-mongoose.connect("mongodb://localhost/articleScraper");
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+// mongoose.connect("mongodb://localhost/articleScraper");
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/articeScraper";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
