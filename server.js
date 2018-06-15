@@ -13,6 +13,12 @@ const app = express();
 // Configure PORT
 const PORT = process.env.PORT || 3000;
 
+// Establish Mongoose Connection to DB
+// mongoose.connect("mongodb://localhost/articleScraper");
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/articleScraper";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
+
 // Configure BodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -28,11 +34,7 @@ app.set("view engine", "handlebars");
 // Configure Morgan for CLI Logging
 app.use(logger("dev"));
 
-// Establish Mongoose Connection to DB
-// mongoose.connect("mongodb://localhost/articleScraper");
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/articeScraper";
-mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
+
 
 // Start Server...
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}...`));
