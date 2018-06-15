@@ -11,7 +11,7 @@ const routes = require("./controllers/routes");
 const app = express();
 
 // Configure PORT
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Configure BodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
