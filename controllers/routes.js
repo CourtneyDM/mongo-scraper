@@ -110,10 +110,10 @@ router.post("/api/articles/", (req, res) => {
             _id: articleID
         },
             { note: dbNote._id }, { new: true }))
-        .then(() => console.log("Article added."))
+        .then(() => res.redirect("/articles"))
         .catch(error => { return res.json(error) });
 
-    res.redirect("/articles");
+
 });
 
 // Delete a note from database

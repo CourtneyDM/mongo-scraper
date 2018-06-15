@@ -13,12 +13,12 @@ $(document).on("click", "#save", function () {
 
 // Delete an article from the Saved Articles list
 $(document).on("click", "#delete", function () {
-    const articleID = $(this).attr("data-article-id");
+    const thisID = $(this).attr("data-id");
     $.ajax({
         method: "POST",
         url: "/api/delete/article",
         data: {
-            id: articleID
+            id: thisID
         }
     }).then(data => console.log(data));
     location.reload();
@@ -26,44 +26,37 @@ $(document).on("click", "#delete", function () {
 
 // Add a comment from the modal form
 $(document).on("click", "#new-comment", function () {
-    const articleID = $(this).attr("data-article-id");
+    const thisID = $(this).attr("data-id");
     const title = $(this).prev().prev().text();
 
-    $("#comment-title").text(title).attr("data-id", articleID).attr("name", articleID);
+    $("#comment-title").text(title).attr("data-id", thisID).attr("name", thisID);
     $("#header").attr("value", title);
-    $("#noteID").attr("value", articleID);
+    $("#noteID").attr("value", thisID);
 });
 
 // Retrieve notes
 $(document).on("click", "#get-comments", function () {
-    // Get the article ID from the View Note button
-    const articleID = $(this).attr("name");
-    const deleteBtn = `<button class="btn btn-sm btn-danger" aria-label="Close" id="delete-comment">Delete Note</button>`;
+    const thisID = $(this).attr("name");
+    $.get(`/comments/${thisID}`, data => {
+        let comment = data.note.body;
+        $("button").attr("id", "get-comments").attr("data-id", data.note_id);
 
-    // Send the article ID to the DB to get the note data
-    $.get(`/comments/${articleID}`, data => {
-        const noteID = data.note._id;
-        let comment = `<p>${data.note.body}</p>`;
-
-        // Add the note id to the View Comments button
-        $("button").attr("id", "get-comments").attr("data-note-id", noteID);
-
-        // Add the Comment and a Delete Note button to the DOM
-        $(`#${articleID}`).append(comment).append(deleteBtn).attr("data-article-id", `"${articleID}"`).attr("data-note-id", `"${noteID}`);
+        $(`#${thisID}`).append(`<p>${comment}</p>`)
+            .append(`<button class="btn btn-sm btn-danger" aria-label="Close" id="delete-comment" data-name="${thisID}" data-id="${data.note._id}">
+        Delete Note</button>`);
     });
 });
 
-
-// Delete notes
 $(document).on("click", "#delete-comment", function () {
-    const noteID = $(this).attr("data-id");
-    // const articleID = $(this).attr("data-name");
+    const thisID = $(this).attr("data-id");
+    const articleID = $(this).attr("data-name");
+    console.log(articleID);
 
     $.ajax({
         method: "POST",
         url: "/api/delete/note",
         data: {
-            id: noteID
+            id: thisID
         }
     }).then(data => {
         console.log(data)
