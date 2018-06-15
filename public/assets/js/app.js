@@ -1,14 +1,17 @@
 // Save an article to the Saved Articles list
-$(document).on("click", "#save", function () {
-    $.ajax({
-        method: "POST",
-        url: "/api/saved/",
-        data: {
-            title: $(this).prev().prev().text(),
-            link: $(this).prev().attr("href")
-        }
-    }).then(data => console.log(data));
-    location.reload();
+$(document).on("click", "#saveBtn", function () {
+    const title = document.getElementById("scrape-title").innerText;
+    console.log(title);
+
+    // $.ajax({
+    //     method: "POST",
+    //     url: "/api/saved/",
+    //     data: {
+    //         title: $(this).prev().prev().text(),
+    //         link: $(this).prev().attr("href")
+    //     }
+    // }).then(data => console.log(data));
+    // location.reload();
 });
 
 // Delete an article from the Saved Articles list
