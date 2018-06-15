@@ -1,8 +1,5 @@
 // Save an article to the Saved Articles list
-$(document).on("click", "#saveBtn", function () {
-    const title = document.getElementById("scrape-title").innerText;
-    console.log(title);
-
+$(document).on("click", "#save", function () {
     $.ajax({
         method: "POST",
         url: "/api/saved/",
