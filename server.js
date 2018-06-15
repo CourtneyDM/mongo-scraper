@@ -15,10 +15,25 @@ const PORT = process.env.PORT || 3000;
 
 // Establish Mongoose Connection to DB
 // mongoose.connect("mongodb://localhost/articleScraper");
-let URI = "mongodb://<dbuser>:<dbpassword>@ds259820.mlab.com:59820/heroku_2sfwd6lr";
-// const MONGODB_URI = process.env.MONGOLAB_CRIMSON_URI || "mongodb://localhost/articleScraper";
+
+const MONGODB_URI = "mongodb://heroku_d9w0fw1n:8g7v130pig6pvqp81gat0r1mks@ds159840.mlab.com:59840/heroku_d9w0fw1n" || "mongodb://localhost/articleScraper";
+
+const options = {
+    "server": {
+        "socketOptions": {
+            "keepAlive": 300000,
+            "connectTimeoutMS": 30000
+        }
+    },
+    "replset": {
+        "socketOptions": {
+            "keepAlive": 300000,
+            "connectTimeoutMS": 30000
+        }
+    }
+}
 mongoose.Promise = Promise;
-mongoose.connect(URI);
+mongoose.connect(MONGODB_URI, options);
 
 // Configure BodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
