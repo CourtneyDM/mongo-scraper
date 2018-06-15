@@ -15,8 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 // Establish Mongoose Connection to DB
 // mongoose.connect("mongodb://localhost/articleScraper");
-
-const MONGODB_URI = PROCESS.ENV.MONGODB_URI || "mongodb://heroku_d9w0fw1n:8g7v130pig6pvqp81gat0r1mks@ds159840.mlab.com:59840/heroku_d9w0fw1n";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_d9w0fw1n:8g7v130pig6pvqp81gat0r1mks@ds159840.mlab.com:59840/heroku_d9w0fw1n";
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
