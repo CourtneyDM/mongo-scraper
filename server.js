@@ -15,9 +15,10 @@ const PORT = process.env.PORT || 3000;
 
 // Establish Mongoose Connection to DB
 // mongoose.connect("mongodb://localhost/articleScraper");
-const MONGODB_URI = process.env.MONGOLAB_CRIMSON_URI || "mongodb://localhost/articleScraper";
+let URI = "mongodb://<dbuser>:<dbpassword>@ds259820.mlab.com:59820/heroku_2sfwd6lr";
+// const MONGODB_URI = process.env.MONGOLAB_CRIMSON_URI || "mongodb://localhost/articleScraper";
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
+mongoose.connect(URI);
 
 // Configure BodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
